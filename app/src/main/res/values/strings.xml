@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Posyandu</string>
+    <string name="id_ibu">ID Ibu: %1$d</string>
+    <string name="id_balita">ID Balita: %1$d</string>
+    <string name="id_laporan">ID Laporan: %1$d</string>
+
+    <string name="status_tercukupi">Tercukupi</string>
+    <string name="status_belum_tercukupi">Belum Tercukupi</string>
+    <string name="hasil_hitung">Menghitung Status Antropometri...</string>
+
+    <string name="konten_laporan">Isi Laporan</string>
+    <string name="waktu_buat">Waktu Dibuat: %1$s</string>
+    <string name="periode_laporan">Periode: %1$s</string>
+
+    <string name="pilih_aksi">Pilih Aksi</string>
+    <string name="cek_status_login">Mengecek status login...</string>
+    <string name="ceklis">Ceklist</string>
+</resources>

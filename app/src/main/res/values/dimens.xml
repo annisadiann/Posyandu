@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="spacing_tiny">4dp</dimen>
+    <dimen name="spacing_small">8dp</dimen>
+    <dimen name="spacing_normal">16dp</dimen>
+    <dimen name="spacing_medium">24dp</dimen>
+    <dimen name="spacing_large">32dp</dimen>
+    <dimen name="spacing_xlarge">48dp</dimen>
+
+    <dimen name="logo_size_large">150dp</dimen>
+    <dimen name="logo_size_normal">120dp</dimen>
+    <dimen name="avatar_size">56dp</dimen>
+    <dimen name="report_chart_height">240dp</dimen>
+
+    <dimen name="text_size_tiny">10sp</dimen>
+    <dimen name="text_size_small">12sp</dimen>
+    <dimen name="text_size_normal">14sp</dimen>
+    <dimen name="text_size_medium">16sp</dimen>
+    <dimen name="text_size_large">18sp</dimen>
+    <dimen name="text_size_xlarge">20sp</dimen>
+    <dimen name="text_size_title">24sp</dimen>
+    <dimen name="text_size_header">28sp</dimen>
+
+    <dimen name="button_height">52dp</dimen> <dimen name="button_corner_radius">12dp</dimen>
+    <dimen name="edittext_height">56dp</dimen>
+    <dimen name="edittext_corner_radius">12dp</dimen>
+
+    <dimen name="card_corner_radius_large">24dp</dimen> <dimen name="card_corner_radius_normal">16dp</dimen> <dimen name="card_elevation">4dp</dimen>
+
+    <dimen name="app_bar_height">64dp</dimen>
+
+    <dimen name="checkbox_size">24dp</dimen>
+</resources>
