@@ -29,12 +29,10 @@ fun SplashScreen(
     viewModel: AdminViewModel,
     onAnimationFinished: (Boolean) -> Unit
 ) {
-    // Animasi muncul (Fade In)
     val alpha = remember { Animatable(0f) }
 
-    // LOGIKA TUNGGAL: Animasi + Cek Sesi
     LaunchedEffect(key1 = true) {
-        // 1. Jalankan animasi fade in logo
+        // 1. Jalankan animasi
         alpha.animateTo(
             targetValue = 1f,
             animationSpec = tween(durationMillis = 1000)
@@ -49,7 +47,6 @@ fun SplashScreen(
         }
     }
 
-    // Desain Background dengan Gradasi Pink
     Box(
         modifier = Modifier
             .fillMaxSize()

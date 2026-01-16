@@ -73,7 +73,6 @@ fun IbuBalitaItem(
                     )
                 }
             }
-            // Panah indikator untuk melihat data balita (Sesuai Use Case)
             Text(text = "❯", color = Color(0xFFFF69B4), fontWeight = FontWeight.Bold)
         }
     }

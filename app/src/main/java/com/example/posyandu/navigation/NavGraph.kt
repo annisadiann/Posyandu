@@ -70,7 +70,6 @@ fun SetupNavGraph(
             })
         }
 
-        // --- DASHBOARD (SUDAH DIPERBAIKI) ---
         composable(route = Screen.Dashboard.route) {
             DashboardScreen(
                 viewModel = ibuViewModel, // Menghubungkan data ke Dashboard

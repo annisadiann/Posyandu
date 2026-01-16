@@ -9,13 +9,12 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface IbuBalitaDao {
-    // Mengambil data balita beserta info ibunya menggunakan relasi
     @Transaction
     @Query("SELECT * FROM balita")
     fun getBalitaWithIbu(): Flow<List<BalitaWithIbu>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertIbu(ibu: IbuBalita): Long // Harus return Long untuk ID
+    suspend fun insertIbu(ibu: IbuBalita): Long
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertBalita(balita: Balita)
@@ -26,6 +25,12 @@ interface IbuBalitaDao {
     @Update
     suspend fun updateIbu(ibu: IbuBalita)
 
+    @Update
+    suspend fun updateBalita(balita: Balita)
+
     @Delete
     suspend fun deleteIbu(ibu: IbuBalita)
+
+    @Query("SELECT * FROM balita WHERE id_balita = :id")
+    suspend fun getBalitaById(id: Int): Balita?
 }

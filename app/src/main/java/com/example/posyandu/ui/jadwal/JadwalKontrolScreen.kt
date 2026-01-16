@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
@@ -11,6 +12,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -49,7 +51,7 @@ fun JadwalKontrolScreen(
                         }
                         showDeleteDialog = false
                     },
-                    colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFD32F2F))
                 ) { Text("Hapus", color = Color.White) }
             },
             dismissButton = {
@@ -62,21 +64,22 @@ fun JadwalKontrolScreen(
         snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             TopAppBar(
-                title = { Text("Jadwal Kontrol", color = Color.White, fontWeight = FontWeight.Bold) },
+                title = { Text("Agenda Kontrol", color = Color.White, fontWeight = FontWeight.ExtraBold) },
                 navigationIcon = {
                     IconButton(onClick = onNavigateBack) {
                         Icon(Icons.Default.ArrowBack, "Kembali", tint = Color.White)
                     }
                 },
-                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color(0xFFFF69B4))
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = Color(0xFFFF1493))
             )
         },
         floatingActionButton = {
             FloatingActionButton(
                 onClick = onNavigateToAddJadwal,
-                containerColor = Color(0xFFFF69B4),
-                contentColor = Color.White
-            ) { Icon(Icons.Default.Add, "Tambah") }
+                containerColor = Color(0xFFFF1493),
+                contentColor = Color.White,
+                shape = CircleShape
+            ) { Icon(Icons.Default.Add, "Tambah", modifier = Modifier.size(30.dp)) }
         }
     ) { padding ->
         Column(
@@ -85,29 +88,45 @@ fun JadwalKontrolScreen(
                 .padding(padding)
                 .background(Color(0xFFFFFAFA))
         ) {
-            Card(
-                modifier = Modifier.padding(16.dp),
-                colors = CardDefaults.cardColors(containerColor = Color(0xFFFFD1DC)),
-                shape = RoundedCornerShape(16.dp)
-            ) {
-                Row(modifier = Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
-                    Icon(Icons.Default.Notifications, null, tint = Color(0xFFFF1493))
-                    Spacer(modifier = Modifier.width(12.dp))
-                    Text(
-                        text = "Ingatkan orang tua balita untuk kontrol rutin tepat waktu.",
-                        fontSize = 13.sp, color = Color(0xFF880E4F), lineHeight = 18.sp
+            // Header Info dengan Gradasi Tipis
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(
+                        brush = Brush.verticalGradient(
+                            colors = listOf(Color(0xFFFF1493), Color(0xFFFF69B4))
+                        ),
+                        shape = RoundedCornerShape(bottomStart = 32.dp, bottomEnd = 32.dp)
                     )
+                    .padding(20.dp)
+            ) {
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.2f)),
+                    shape = RoundedCornerShape(16.dp)
+                ) {
+                    Row(modifier = Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Icon(Icons.Default.Notifications, null, tint = Color.White)
+                        Spacer(modifier = Modifier.width(12.dp))
+                        Text(
+                            text = "Pantau dan ingatkan jadwal kunjungan rutin balita.",
+                            fontSize = 13.sp, color = Color.White, lineHeight = 18.sp
+                        )
+                    }
                 }
             }
 
             if (daftarJadwal.isEmpty()) {
                 Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                    Text("Belum ada data jadwal", color = Color.Gray)
+                    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                        Icon(Icons.Default.DateRange, null, Modifier.size(80.dp), Color.LightGray)
+                        Text("Belum ada agenda kontrol", color = Color.Gray)
+                    }
                 }
             } else {
                 LazyColumn(
                     contentPadding = PaddingValues(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(8.dp)
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     items(daftarJadwal) { item ->
                         JadwalItem(
@@ -136,49 +155,69 @@ fun JadwalItem(
     onDelete: () -> Unit
 ) {
     val dateFormat = SimpleDateFormat("dd MMMM yyyy", Locale("id", "ID"))
+    val isDone = item.jadwal.sudah_dihubungi
 
     Card(
         modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(12.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
-        elevation = CardDefaults.cardElevation(2.dp)
+        shape = RoundedCornerShape(20.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = if (isDone) Color(0xFFF1F1F1) else Color.White
+        ),
+        elevation = CardDefaults.cardElevation(if (isDone) 0.dp else 4.dp),
+        border = if (isDone) null else androidx.compose.foundation.BorderStroke(0.5.dp, Color.LightGray.copy(alpha = 0.5f))
     ) {
         Row(
             modifier = Modifier.padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
+            // Avatar Ikon
+            Surface(
+                shape = CircleShape,
+                color = if (isDone) Color.LightGray else Color(0xFFFFD1DC),
+                modifier = Modifier.size(44.dp)
+            ) {
+                Icon(
+                    imageVector = if (isDone) Icons.Default.CheckCircle else Icons.Default.Face,
+                    contentDescription = null,
+                    tint = if (isDone) Color.Gray else Color(0xFF880E4F),
+                    modifier = Modifier.padding(10.dp)
+                )
+            }
+
+            Spacer(modifier = Modifier.width(16.dp))
+
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = item.balita.nama_balita,
-                    fontWeight = FontWeight.Bold,
-                    color = Color(0xFFFF1493),
+                    fontWeight = FontWeight.ExtraBold,
+                    color = if (isDone) Color.Gray else Color(0xFF880E4F),
                     fontSize = 17.sp
                 )
                 Text(
-                    text = "Kontrol: ${dateFormat.format(item.jadwal.tanggal_kontrol)}",
-                    fontSize = 13.sp,
+                    text = "Tgl Kontrol: ${dateFormat.format(item.jadwal.tanggal_kontrol)}",
+                    fontSize = 12.sp,
                     color = Color.Gray
                 )
             }
+
+            // Aksi
             Row(verticalAlignment = Alignment.CenterVertically) {
-                IconButton(onClick = onEdit) {
-                    Icon(Icons.Default.Edit, "Edit", tint = Color.Blue, modifier = Modifier.size(20.dp))
+                if (!isDone) {
+                    IconButton(onClick = onEdit) {
+                        Icon(Icons.Default.Edit, "Edit", tint = Color(0xFF1976D2), modifier = Modifier.size(20.dp))
+                    }
                 }
                 IconButton(onClick = onDelete) {
-                    Icon(Icons.Default.Delete, "Hapus", tint = Color.Red, modifier = Modifier.size(20.dp))
+                    Icon(Icons.Default.Delete, "Hapus", tint = Color(0xFFD32F2F), modifier = Modifier.size(20.dp))
                 }
-                Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Checkbox(
-                        checked = item.jadwal.sudah_dihubungi,
-                        onCheckedChange = onStatusChange,
-                        colors = CheckboxDefaults.colors(checkedColor = Color(0xFFFF69B4))
-                    )
-                    Text(
-                        text = if (item.jadwal.sudah_dihubungi) "Sudah" else "Hubungi",
-                        fontSize = 9.sp,
-                        color = if (item.jadwal.sudah_dihubungi) Color(0xFF4CAF50) else Color.Gray
-                    )
-                }
+
+                VerticalDivider(modifier = Modifier.height(30.dp).padding(horizontal = 4.dp))
+
+                Checkbox(
+                    checked = isDone,
+                    onCheckedChange = onStatusChange,
+                    colors = CheckboxDefaults.colors(checkedColor = Color(0xFF4CAF50))
+                )
             }
         }
     }

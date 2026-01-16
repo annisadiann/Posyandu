@@ -13,7 +13,6 @@ class PemeriksaanRepository(
     suspend fun insertPemeriksaan(pemeriksaan: Pemeriksaan) =
         pemeriksaanDao.insertPemeriksaan(pemeriksaan)
 
-    // PERBAIKAN: Pastikan nama fungsi ini ada di PemeriksaanDao.kt
     fun getRiwayat(idBalita: Int): Flow<List<Pemeriksaan>> =
         pemeriksaanDao.getRiwayatPemeriksaan(idBalita)
 

@@ -19,7 +19,7 @@ import com.example.posyandu.viewmodel.IbuBalitaViewModel
 @Composable
 fun DetailPemeriksaanScreen(
     pemeriksaanId: Int,
-    viewModel: IbuBalitaViewModel, // Tambahkan ViewModel
+    viewModel: IbuBalitaViewModel,
     onFinish: () -> Unit
 ) {
     // Cari data pemeriksaan berdasarkan ID
@@ -39,7 +39,6 @@ fun DetailPemeriksaanScreen(
                 modifier = Modifier.padding(32.dp),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                // Icon berubah warna sesuai status gizi
                 val isGiziBuruk = data?.pemeriksaan?.status_gizi?.contains("Buruk", true) == true
 
                 Icon(

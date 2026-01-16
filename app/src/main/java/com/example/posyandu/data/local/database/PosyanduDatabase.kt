@@ -20,7 +20,7 @@ import com.example.posyandu.data.local.DateConverter // Pastikan path ini sesuai
         JadwalKontrol::class,
         Laporan::class
     ],
-    version = 8, // Pastikan jika kamu mengubah struktur tabel, versi ini dinaikkan atau database di-clear
+    version = 8,
     exportSchema = false
 )
 @TypeConverters(DateConverter::class)

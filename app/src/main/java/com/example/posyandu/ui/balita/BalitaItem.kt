@@ -40,7 +40,6 @@ fun BalitaItem(
                 .fillMaxWidth(),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Icon Profil Balita dengan background Pink Muda
             Box(
                 modifier = Modifier
                     .size(50.dp)
@@ -62,7 +61,7 @@ fun BalitaItem(
                     text = balita.nama_balita,
                     fontSize = 17.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFFFF1493) // Deep Pink
+                    color = Color(0xFFFF1493)
                 )
                 Text(
                     text = "Lahir: ${dateFormat.format(balita.tanggal_lahir)}",
@@ -76,7 +75,6 @@ fun BalitaItem(
                 )
             }
 
-            // Tombol aksi edit sesuai alur CRUD di Flowchart
             TextButton(onClick = onEditClick) {
                 Text("Edit", color = Color(0xFFFF69B4), fontWeight = FontWeight.Bold)
             }

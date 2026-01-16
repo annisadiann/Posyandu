@@ -13,7 +13,7 @@ class JadwalKontrolViewModel(private val repository: JadwalKontrolRepository) : 
     val allJadwal = repository.allJadwal
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
-    // Perbaikan: Fungsi update menggunakan objek JadwalKontrol
+    // Fungsi update menggunakan objek JadwalKontrol
     fun updateCeklist(jadwal: JadwalKontrol) = viewModelScope.launch {
         repository.update(jadwal)
     }

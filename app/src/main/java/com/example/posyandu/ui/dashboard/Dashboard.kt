@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -33,10 +34,10 @@ fun DashboardScreen(
     viewModel: IbuBalitaViewModel,
     onMenuSelected: (String) -> Unit
 ) {
-    // Mengambil data statistik stabil (Total keseluruhan)
     val totalTerdaftar by viewModel.statsDashboard.collectAsState()
+    // Mengambil data jadwal untuk mengisi kekosongan visual
+    val listJadwal by viewModel.allJadwal.collectAsState()
 
-    // Logika Greeting (Menyapa Pagi/Siang/Sore/Malam)
     val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
     val greeting = when (hour) {
         in 0..11 -> "Selamat Pagi"
@@ -45,9 +46,7 @@ fun DashboardScreen(
         else -> "Selamat Malam"
     }
 
-    // Format tanggal hari ini
-    val sdf = SimpleDateFormat("EEEE, d MMMM yyyy", Locale("id", "ID"))
-    val tanggalHariIni = sdf.format(Date())
+    val tanggalHariIni = SimpleDateFormat("EEEE, d MMMM yyyy", Locale("id", "ID")).format(Date())
 
     Scaffold(
         topBar = {
@@ -68,7 +67,6 @@ fun DashboardScreen(
                 .padding(padding)
                 .background(Color(0xFFFFFAFA))
         ) {
-            // BOX HEADER DENGAN GRADASI (Header melengkung)
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -86,40 +84,19 @@ fun DashboardScreen(
 
                     Spacer(modifier = Modifier.height(24.dp))
 
-                    // CARD STATISTIK (Glassmorphism style sederhana)
-                    Card(
-                        colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.15f)),
-                        shape = RoundedCornerShape(16.dp),
-                        border = BorderStroke(1.dp, Color.White.copy(alpha = 0.3f))
-                    ) {
-                        Row(
-                            modifier = Modifier.padding(16.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Surface(
-                                shape = CircleShape,
-                                color = Color.White.copy(alpha = 0.2f),
-                                modifier = Modifier.size(44.dp)
-                            ) {
-                                // Pakai ikon CheckCircle (pasti ada)
-                                Icon(
-                                    Icons.Default.CheckCircle,
-                                    null,
-                                    tint = Color.White,
-                                    modifier = Modifier.padding(10.dp)
-                                )
-                            }
-                            Spacer(Modifier.width(16.dp))
-                            Column {
-                                Text("Total Balita Diperiksa", color = Color.White.copy(alpha = 0.9f), fontSize = 12.sp)
-                                Text(
-                                    text = "$totalTerdaftar Balita",
-                                    color = Color.White,
-                                    fontSize = 20.sp,
-                                    fontWeight = FontWeight.Bold
-                                )
-                            }
-                        }
+                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                        StatCard(
+                            label = "Diperiksa",
+                            value = "$totalTerdaftar",
+                            icon = Icons.Default.CheckCircle,
+                            modifier = Modifier.weight(1f)
+                        )
+                        StatCard(
+                            label = "Agenda",
+                            value = "${listJadwal.size}",
+                            icon = Icons.Default.Notifications,
+                            modifier = Modifier.weight(1f)
+                        )
                     }
                 }
             }
@@ -134,35 +111,68 @@ fun DashboardScreen(
                 color = Color(0xFF880E4F)
             )
 
+            // GRID MENU
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 contentPadding = PaddingValues(16.dp),
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.weight(1f)
             ) {
                 item {
-                    MenuCard(
-                        title = "Data Ibu/Balita",
-                        icon = Icons.Default.Face, // Ikon Standar
-                        color = Color(0xFFFFD1DC),
-                        onClick = { onMenuSelected(Screen.IbuBalita.route) }
-                    )
+                    MenuCard("Data Pasien", Icons.Default.Face, Color(0xFFFFD1DC)) { onMenuSelected(Screen.IbuBalita.route) }
                 }
                 item {
-                    MenuCard(
-                        title = "Pemeriksaan",
-                        icon = Icons.Default.Favorite, // Ikon Standar
-                        color = Color(0xFFF8BBD0),
-                        onClick = { onMenuSelected(Screen.LayananKlinis.route) }
-                    )
+                    MenuCard("Layanan", Icons.Default.Favorite, Color(0xFFF8BBD0)) { onMenuSelected(Screen.LayananKlinis.route) }
                 }
                 item {
-                    MenuCard(
-                        title = "Laporan",
-                        icon = Icons.Default.List, // Ikon Standar
-                        color = Color(0xFFF06292),
-                        onClick = { onMenuSelected(Screen.Laporan.route) }
+                    MenuCard("Laporan", Icons.Default.List, Color(0xFFF06292)) { onMenuSelected(Screen.Laporan.route) }
+                }
+            }
+
+            Card(
+                modifier = Modifier
+                    .padding(24.dp)
+                    .fillMaxWidth(),
+                colors = CardDefaults.cardColors(containerColor = Color(0xFFFFE4E1).copy(alpha = 0.5f)),
+                shape = RoundedCornerShape(16.dp),
+                border = BorderStroke(1.dp, Color(0xFFFF69B4).copy(alpha = 0.2f))
+            ) {
+                Row(
+                    modifier = Modifier.padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(Icons.Default.Info, null, tint = Color(0xFFFF1493), modifier = Modifier.size(24.dp))
+                    Spacer(modifier = Modifier.width(12.dp))
+                    Text(
+                        text = "Tips: Pastikan data berat badan balita selalu diperbarui setiap bulan.",
+                        fontSize = 12.sp,
+                        color = Color(0xFF880E4F),
+                        fontStyle = FontStyle.Italic
                     )
                 }
+            }
+        }
+    }
+}
+
+@Composable
+fun StatCard(label: String, value: String, icon: ImageVector, modifier: Modifier) {
+    Card(
+        modifier = modifier,
+        colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.15f)),
+        shape = RoundedCornerShape(16.dp),
+        border = BorderStroke(1.dp, Color.White.copy(alpha = 0.3f))
+    ) {
+        Row(
+            modifier = Modifier.padding(12.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Surface(shape = CircleShape, color = Color.White.copy(alpha = 0.2f), modifier = Modifier.size(32.dp)) {
+                Icon(icon, null, tint = Color.White, modifier = Modifier.padding(6.dp))
+            }
+            Spacer(modifier = Modifier.width(8.dp))
+            Column {
+                Text(label, color = Color.White.copy(alpha = 0.8f), fontSize = 10.sp)
+                Text(value, color = Color.White, fontSize = 16.sp, fontWeight = FontWeight.Bold)
             }
         }
     }
@@ -174,9 +184,10 @@ fun MenuCard(title: String, icon: ImageVector, color: Color, onClick: () -> Unit
         modifier = Modifier
             .padding(8.dp)
             .fillMaxWidth()
-            .height(130.dp)
+            .height(120.dp)
             .clickable { onClick() },
         shape = RoundedCornerShape(24.dp),
+        elevation = CardDefaults.cardElevation(4.dp),
         colors = CardDefaults.cardColors(containerColor = color)
     ) {
         Column(
@@ -187,22 +198,12 @@ fun MenuCard(title: String, icon: ImageVector, color: Color, onClick: () -> Unit
             Surface(
                 shape = CircleShape,
                 color = Color.White.copy(alpha = 0.4f),
-                modifier = Modifier.size(50.dp)
+                modifier = Modifier.size(44.dp)
             ) {
-                Icon(
-                    imageVector = icon,
-                    contentDescription = title,
-                    modifier = Modifier.padding(12.dp),
-                    tint = Color(0xFF880E4F)
-                )
+                Icon(icon, title, modifier = Modifier.padding(10.dp), tint = Color(0xFF880E4F))
             }
-            Spacer(modifier = Modifier.height(12.dp))
-            Text(
-                text = title,
-                fontWeight = FontWeight.Bold,
-                color = Color(0xFF880E4F),
-                fontSize = 14.sp
-            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(title, fontWeight = FontWeight.Bold, color = Color(0xFF880E4F), fontSize = 13.sp)
         }
     }
 }

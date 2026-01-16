@@ -20,7 +20,7 @@ import java.util.Date
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BalitaScreen(
-    ibuId: Int, // Menerima ID Ibu dari Navigasi sesuai RAT
+    ibuId: Int, // Menerima ID Ibu dari Navigasi
     onNavigateBack: () -> Unit
 ) {
     // Dummy Data Balita berdasarkan id_ibu tertentu (Mockup untuk Testing UI)
@@ -47,7 +47,7 @@ fun BalitaScreen(
             )
         },
         floatingActionButton = {
-            // Fitur Tambah Balita sesuai Use Case
+            // Fitur Tambah Balita
             FloatingActionButton(
                 onClick = { /* Navigasi ke Form Tambah Balita */ },
                 containerColor = Color(0xFFFF69B4),
@@ -61,7 +61,7 @@ fun BalitaScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .background(Color(0xFFFFFAFA)) // Snow White background
+                .background(Color(0xFFFFFAFA))
         ) {
             if (listBalita.isEmpty()) {
                 // Tampilan jika data kosong

@@ -10,8 +10,6 @@ import androidx.compose.ui.unit.dp
 fun KlinisMenuScreen(
     onNavigateBack: () -> Unit
 ) {
-    // File ini sekarang memiliki nama fungsi yang unik (KlinisMenuScreen)
-    // Sehingga tidak akan menyebabkan "Conflicting Overloads" dengan LayananKlinisScreen
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
         Text("Ini adalah halaman menu Klinis cadangan.")
         Button(onClick = onNavigateBack) {

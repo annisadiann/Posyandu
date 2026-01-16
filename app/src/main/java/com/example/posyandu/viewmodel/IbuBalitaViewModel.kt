@@ -9,12 +9,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
 import java.util.*
 
 class IbuBalitaViewModel(private val repository: IbuBalitaRepository) : ViewModel() {
 
-    // Filter Tanggal untuk LAPORAN
+    // --- STATE FILTER ---
     private val _startDate = MutableStateFlow(0L)
     private val _endDate = MutableStateFlow(Long.MAX_VALUE)
     private val _namaPeriode = MutableStateFlow("Semua Waktu")
@@ -26,7 +25,7 @@ class IbuBalitaViewModel(private val repository: IbuBalitaRepository) : ViewMode
         _namaPeriode.value = label
     }
 
-    // --- DASHBOARD: Selalu ambil total semua (biar stabil pas login) ---
+    // --- DASHBOARD ---
     val statsDashboard: StateFlow<Int> = repository.totalPemeriksaanAll
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0)
 
@@ -38,10 +37,14 @@ class IbuBalitaViewModel(private val repository: IbuBalitaRepository) : ViewMode
         repository.insertDataBaru(ibu, balita)
     }
 
-    fun updateIbu(ibu: IbuBalita) = viewModelScope.launch(Dispatchers.IO) { repository.update(ibu) }
+    fun updateDataPasien(ibu: IbuBalita, balita: Balita) = viewModelScope.launch(Dispatchers.IO) {
+        repository.updateIbu(ibu)
+        repository.updateBalita(balita)
+    }
+
     fun deleteIbu(ibu: IbuBalita) = viewModelScope.launch(Dispatchers.IO) { repository.delete(ibu) }
 
-    // --- FITUR PEMERIKSAAN & JADWAL ---
+    // --- FITUR PEMERIKSAAN ---
     val allPemeriksaan: StateFlow<List<PemeriksaanWithBalita>> = repository.allPemeriksaan
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
@@ -49,6 +52,7 @@ class IbuBalitaViewModel(private val repository: IbuBalitaRepository) : ViewMode
         repository.insertPemeriksaan(pemeriksaan)
     }
 
+    // --- JADWAL ---
     val allJadwal: StateFlow<List<JadwalKontrolWithBalita>> = repository.allJadwalWithBalita
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
@@ -56,7 +60,7 @@ class IbuBalitaViewModel(private val repository: IbuBalitaRepository) : ViewMode
     fun updateJadwal(jadwal: JadwalKontrol) = viewModelScope.launch(Dispatchers.IO) { repository.updateJadwal(jadwal) }
     fun deleteJadwal(jadwal: JadwalKontrol) = viewModelScope.launch(Dispatchers.IO) { repository.deleteJadwal(jadwal) }
 
-    // --- STATISTIK LAPORAN (DINAMIS DENGAN FILTER) ---
+    // --- STATISTIK DINAMIS (LAPORAN) ---
     @OptIn(ExperimentalCoroutinesApi::class)
     val statsTotal: StateFlow<Int> = combine(_startDate, _endDate) { s, e -> Pair(s, e) }
         .flatMapLatest { (s, e) -> repository.getTotalPemeriksaan(s, e) }

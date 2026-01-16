@@ -9,7 +9,7 @@ interface LaporanDao {
     @Insert
     suspend fun simpanLaporan(laporan: Laporan)
 
-    // REQ-LAP-4: Ambil data sesuai periode [cite: 251]
+    //Ambil data sesuai periode
     @Query("SELECT * FROM laporan WHERE periode BETWEEN :start AND :end")
     suspend fun getLaporanByPeriode(start: Long, end: Long): List<Laporan>
 

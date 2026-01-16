@@ -11,7 +11,6 @@ interface JadwalKontrolDao {
     @Query("SELECT * FROM jadwal_kontrol ORDER BY tanggal_kontrol ASC")
     fun getAllJadwalWithBalita(): Flow<List<JadwalKontrolWithBalita>>
 
-    // NAMA TETAP SAMA: Sekarang mendukung filter rentang tanggal
     @Query("""
         SELECT COUNT(*) FROM jadwal_kontrol 
         WHERE sudah_dihubungi = 1 

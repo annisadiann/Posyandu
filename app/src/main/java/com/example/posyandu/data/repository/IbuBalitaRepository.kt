@@ -13,6 +13,7 @@ class IbuBalitaRepository(
     private val pemeriksaanDao: PemeriksaanDao,
     private val laporanDao: LaporanDao
 ) {
+    // --- DATA PASIEN ---
     val allBalitaWithIbu: Flow<List<BalitaWithIbu>> = ibuBalitaDao.getBalitaWithIbu()
 
     suspend fun insertDataBaru(ibu: IbuBalita, balita: Balita) {
@@ -21,27 +22,28 @@ class IbuBalitaRepository(
         ibuBalitaDao.insertBalita(balitaLengkap)
     }
 
-    suspend fun update(ibu: IbuBalita) = ibuBalitaDao.updateIbu(ibu)
+    // UPDATE KEDUA TABEL
+    suspend fun updateIbu(ibu: IbuBalita) = ibuBalitaDao.updateIbu(ibu)
+    suspend fun updateBalita(balita: Balita) = ibuBalitaDao.updateBalita(balita)
+
     suspend fun delete(ibu: IbuBalita) = ibuBalitaDao.deleteIbu(ibu)
 
-    // Fungsi Pemeriksaan
+    // --- PEMERIKSAAN ---
     val allPemeriksaan: Flow<List<PemeriksaanWithBalita>> = pemeriksaanDao.getAllPemeriksaanWithBalita()
-
-    // KHUSUS DASHBOARD: Ambil semua tanpa filter agar angka tidak 0 saat login
     val totalPemeriksaanAll: Flow<Int> = pemeriksaanDao.getTotalPemeriksaanAll()
 
     suspend fun insertPemeriksaan(pemeriksaan: Pemeriksaan) = pemeriksaanDao.insertPemeriksaan(pemeriksaan)
 
-    // Fungsi Statistik Laporan (Dinamis dengan filter tanggal)
+    // --- STATISTIK LAPORAN ---
     fun getTotalPemeriksaan(start: Long, end: Long): Flow<Int> = pemeriksaanDao.getTotalPemeriksaan(start, end)
     fun getGiziBaikCount(start: Long, end: Long): Flow<Int> = pemeriksaanDao.getGiziBaikCount(start, end)
     fun getPerluPerhatianCount(start: Long, end: Long): Flow<Int> = pemeriksaanDao.getPerluPerhatianCount(start, end)
     fun getJadwalTerpenuhiCount(start: Long, end: Long): Flow<Int> = jadwalKontrolDao.getJadwalTerpenuhiCount(start, end)
 
-    // Fungsi Simpan Laporan
+    // --- LAPORAN ---
     suspend fun simpanLaporan(laporan: Laporan) = laporanDao.simpanLaporan(laporan)
 
-    // Fungsi Jadwal
+    // --- JADWAL ---
     val allJadwalWithBalita: Flow<List<JadwalKontrolWithBalita>> = jadwalKontrolDao.getAllJadwalWithBalita()
     suspend fun updateJadwal(jadwal: JadwalKontrol) = jadwalKontrolDao.updateJadwal(jadwal)
     suspend fun deleteJadwal(jadwal: JadwalKontrol) = jadwalKontrolDao.deleteJadwal(jadwal)

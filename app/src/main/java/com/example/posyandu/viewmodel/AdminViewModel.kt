@@ -35,8 +35,6 @@ class AdminViewModel(private val repository: AdminRepository) : ViewModel() {
         onError: (String) -> Unit
     ) {
         viewModelScope.launch {
-            // Proses login biasanya menggunakan database lookup,
-            // pastikan repository.login(username) juga bersifat suspend
             val admin = repository.login(username)
 
             if (admin != null) {
@@ -53,16 +51,12 @@ class AdminViewModel(private val repository: AdminRepository) : ViewModel() {
     }
     fun checkSession(onResult: (Boolean) -> Unit) {
         viewModelScope.launch {
-            // Logika: Cek apakah ada data admin di database
-            // Atau Anda bisa menggunakan SharedPreferences untuk menyimpan ID Admin yang login
-            val adminExists = repository.hasAnyAdmin() // Buat fungsi ini di repository
+            val adminExists = repository.hasAnyAdmin()
             onResult(adminExists)
         }
     }
     fun logout(onComplete: () -> Unit) {
         viewModelScope.launch(Dispatchers.IO) {
-            // Logika: Jika ingin benar-benar menghapus sesi, hapus data admin di DB
-            // Atau jika menggunakan SharedPreferences, hapus key-nya di sini.
             onComplete()
         }
     }

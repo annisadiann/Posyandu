@@ -10,7 +10,6 @@ interface PemeriksaanDao {
     @Insert
     suspend fun insertPemeriksaan(pemeriksaan: Pemeriksaan)
 
-    // --- FIX: Fungsi ini yang dicari oleh PemeriksaanRepository ---
     @Query("SELECT * FROM pemeriksaan WHERE id_balita = :idBalita ORDER BY tanggal_pemeriksaan DESC")
     fun getRiwayatPemeriksaan(idBalita: Int): Flow<List<Pemeriksaan>>
 
@@ -18,11 +17,10 @@ interface PemeriksaanDao {
     @Query("SELECT * FROM pemeriksaan ORDER BY tanggal_pemeriksaan DESC")
     fun getAllPemeriksaanWithBalita(): Flow<List<PemeriksaanWithBalita>>
 
-    // Untuk Dashboard (Tanpa Filter)
     @Query("SELECT COUNT(*) FROM pemeriksaan")
     fun getTotalPemeriksaanAll(): Flow<Int>
 
-    // Untuk Laporan (Dengan Filter Tanggal)
+    // Filter Tanggal
     @Query("""
         SELECT COUNT(*) FROM pemeriksaan 
         WHERE tanggal_pemeriksaan >= :start AND tanggal_pemeriksaan <= :end
