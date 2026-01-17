@@ -6,4 +6,4 @@
 
 <img width="240" height="476" alt="image" src="https://github.com/user-attachments/assets/f801d8ea-0bda-42de-8e3e-dd831686d789" />
 
-<img width="240" height="476" alt="Screenshot_20260117_092243" src="https://github.com/user-attachments/assets/03713f6a-a2af-4149-90eb-cdad2b0540e7" />
+<img width="230" height="476" alt="Screenshot_20260117_092243" src="https://github.com/user-attachments/assets/03713f6a-a2af-4149-90eb-cdad2b0540e7" />
