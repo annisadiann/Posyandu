@@ -28,8 +28,8 @@ abstract class PosyanduDatabase : RoomDatabase() {
 
     // Menghubungkan DAO untuk akses data
     abstract fun adminDao(): AdminDao
-    abstract fun ibuBalitaDao(): IbuBalitaDao
     abstract fun balitaDao(): BalitaDao
+    abstract fun ibuBalitaDao(): IbuBalitaDao
     abstract fun pemeriksaanDao(): PemeriksaanDao
     abstract fun standarAntropometriDao(): StandarAntropometriDao
     abstract fun jadwalKontrolDao(): JadwalKontrolDao

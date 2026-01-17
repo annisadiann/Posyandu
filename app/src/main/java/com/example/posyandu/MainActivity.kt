@@ -15,9 +15,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Sesuai Activity Diagram: Entry point aplikasi dimulai dari sini
         setContent {
-            // Menggunakan tema Pink yang telah kita buat sebelumnya
             PosyanduTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),

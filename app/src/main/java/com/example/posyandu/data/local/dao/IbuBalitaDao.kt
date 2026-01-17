@@ -9,28 +9,36 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface IbuBalitaDao {
+
+    // --- QUERY RELASI ---
     @Transaction
     @Query("SELECT * FROM balita")
     fun getBalitaWithIbu(): Flow<List<BalitaWithIbu>>
 
+    // --- OPERASI IBU ---
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertIbu(ibu: IbuBalita): Long
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertBalita(balita: Balita)
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertPemeriksaan(pemeriksaan: Pemeriksaan)
-
     @Update
     suspend fun updateIbu(ibu: IbuBalita)
+
+    @Delete
+    suspend fun deleteIbu(ibu: IbuBalita)
+
+    // --- OPERASI BALITA (Pindahan dari BalitaDao) ---
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertBalita(balita: Balita)
 
     @Update
     suspend fun updateBalita(balita: Balita)
 
     @Delete
-    suspend fun deleteIbu(ibu: IbuBalita)
+    suspend fun deleteBalita(balita: Balita) // bisa hapus anak saja
 
     @Query("SELECT * FROM balita WHERE id_balita = :id")
     suspend fun getBalitaById(id: Int): Balita?
+
+    // --- OPERASI PEMERIKSAAN
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertPemeriksaan(pemeriksaan: Pemeriksaan)
 }
