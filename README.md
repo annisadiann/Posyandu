@@ -1,3 +1,47 @@
+# 👶 Posyandu Digital App
+
+> **Aplikasi Pemantauan Kesehatan Balita Berbasis Android**
+> Dibuat untuk memudahkan Admin Posyandu dalam mendata pasien, memantau gizi, dan menjadwalkan kontrol rutin.
+
+---
+
+## 🚀 Fitur Utama
+
+* **🔐 Autentikasi Admin**: Sistem Login dan Register yang aman untuk pengelola.
+* **📋 Manajemen Pasien**: Pendataan Ibu dan Balita dalam satu relasi data yang terintegrasi.
+* **📊 Analisis Gizi Otomatis**: Perhitungan status gizi (Normal, Kurang, Buruk) secara real-time berdasarkan input BB, TB, dan Umur.
+* **📅 Agenda Kontrol**: Pengelolaan jadwal kunjungan ulang balita yang memerlukan perhatian khusus.
+* **📈 Rekapitulasi Laporan**: Fitur generate laporan periodik berdasarkan data pemeriksaan yang masuk.
+
+---
+
+## 🛠️ Teknologi yang Digunakan
+
+* **Bahasa**: [Kotlin](https://kotlinlang.org/)
+* **UI Framework**: [Jetpack Compose](https://developer.android.com/jetpack/compose) (Modern Declarative UI)
+* **Database**: [Room Persistence Library](https://developer.android.com/training/data-storage/room) (SQLite)
+* **Architecture**: MVVM (Model-View-ViewModel)
+* **State Management**: Kotlin Flows & StateFlow
+
+---
+
+## 📱 Tampilan Aplikasi
+
+| Daftar Pasien | Input Pemeriksaan | Laporan Statistik |
+| :---: | :---: | :---: |
+| |
+
+---
+
+## 🏗️ Struktur Proyek
+
+Aplikasi ini mengikuti pola desain **MVVM** untuk memastikan kode mudah dipelihara:
+
+- **Data**: Entity, DAO, Database, dan Repository.
+- **ViewModel**: Logika bisnis dan pengolahan data dari Repository ke UI.
+- **UI**: Komponen Compose (Screen & Reusable Items).
+- **Utils**: Helper untuk validasi, konverter tanggal, dan shared preferences.
+
 <img width="235" height="478" alt="Screenshot 2026-01-17 091722" src="https://github.com/user-attachments/assets/d4fb4648-790a-4946-aebb-523fd5f75a64" />
 
 <img width="233" height="473" alt="Screenshot 2026-01-17 091846" src="https://github.com/user-attachments/assets/361829b4-eac7-46fc-b3c4-d950b627122b" />
