@@ -25,14 +25,6 @@
 
 ---
 
-## 📱 Tampilan Aplikasi
-
-| Daftar Pasien | Input Pemeriksaan | Laporan Statistik |
-| :---: | :---: | :---: |
-| |
-
----
-
 ## 🏗️ Struktur Proyek
 
 Aplikasi ini mengikuti pola desain **MVVM** untuk memastikan kode mudah dipelihara:
@@ -41,6 +33,10 @@ Aplikasi ini mengikuti pola desain **MVVM** untuk memastikan kode mudah dipeliha
 - **ViewModel**: Logika bisnis dan pengolahan data dari Repository ke UI.
 - **UI**: Komponen Compose (Screen & Reusable Items).
 - **Utils**: Helper untuk validasi, konverter tanggal, dan shared preferences.
+
+---
+
+## 📱 Tampilan Aplikasi
 
 <img width="235" height="478" alt="Screenshot 2026-01-17 091722" src="https://github.com/user-attachments/assets/d4fb4648-790a-4946-aebb-523fd5f75a64" />
 
