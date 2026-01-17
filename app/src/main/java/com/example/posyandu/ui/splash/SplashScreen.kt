@@ -2,11 +2,12 @@ package com.example.posyandu.ui.splash
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material3.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Face
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
@@ -16,11 +17,9 @@ import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.posyandu.R
 import com.example.posyandu.viewmodel.AdminViewModel
 import kotlinx.coroutines.delay
 
@@ -32,16 +31,16 @@ fun SplashScreen(
     val alpha = remember { Animatable(0f) }
 
     LaunchedEffect(key1 = true) {
-        // 1. Jalankan animasi
+        // Jalankan animasi muncul
         alpha.animateTo(
             targetValue = 1f,
-            animationSpec = tween(durationMillis = 1000)
+            animationSpec = tween(durationMillis = 1500)
         )
 
-        // 2. Beri jeda sedikit agar user bisa melihat logo (Total 2 detik)
+        // Jeda agar user bisa melihat logo
         delay(1000)
 
-        // 3. Panggil pengecekan sesi dari database (Logika Flowchart: Cek Sesi)
+        // Cek sesi login
         viewModel.checkSession { isLoggedIn ->
             onAnimationFinished(isLoggedIn)
         }
@@ -53,8 +52,8 @@ fun SplashScreen(
             .background(
                 brush = Brush.verticalGradient(
                     colors = listOf(
-                        Color(0xFFFFD1DC), // Soft Pink
-                        Color(0xFFFF69B4)  // Hot Pink
+                        Color(0xFFFFD1DC),
+                        Color(0xFFFF1493)
                     )
                 )
             ),
@@ -64,45 +63,60 @@ fun SplashScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.alpha(alpha.value)
         ) {
-            // Lingkaran Putih di belakang Logo
-            Box(
+            Surface(
                 modifier = Modifier
-                    .size(150.dp)
-                    .clip(CircleShape)
-                    .background(Color.White.copy(alpha = 0.8f)),
-                contentAlignment = Alignment.Center
+                    .size(140.dp)
+                    .clip(CircleShape),
+                color = Color.White.copy(alpha = 0.2f),
+                border = androidx.compose.foundation.BorderStroke(2.dp, Color.White.copy(alpha = 0.5f))
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.ic_launcher_foreground),
-                    contentDescription = "Logo Posyandu",
-                    modifier = Modifier.size(120.dp)
-                )
+                Box(contentAlignment = Alignment.Center) {
+                    Icon(
+                        imageVector = Icons.Default.Face,
+                        contentDescription = "Logo",
+                        tint = Color.White,
+                        modifier = Modifier.size(80.dp)
+                    )
+                }
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(32.dp))
 
             Text(
-                text = "APLIKASI POSYANDU",
-                fontSize = 28.sp,
+                text = "POSYANDU DIGITAL",
+                fontSize = 30.sp,
                 fontWeight = FontWeight.ExtraBold,
-                color = Color.White
+                color = Color.White,
+                letterSpacing = 2.sp
             )
+
+            Spacer(modifier = Modifier.height(8.dp))
 
             Text(
                 text = "Monitoring Kesehatan Ibu & Balita",
                 fontSize = 16.sp,
-                fontWeight = FontWeight.Medium,
-                color = Color.White.copy(alpha = 0.9f)
+                fontWeight = FontWeight.Bold,
+                color = Color.White
             )
         }
 
+        CircularProgressIndicator(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(bottom = 80.dp)
+                .size(30.dp),
+            color = Color.White,
+            strokeWidth = 2.dp
+        )
+
         Text(
-            text = "v1.0.0",
+            text = "Versi 1.0.0",
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .padding(bottom = 32.dp),
-            color = Color.White.copy(alpha = 0.7f),
-            fontSize = 12.sp
+            color = Color.White.copy(alpha = 0.6f),
+            fontSize = 12.sp,
+            fontWeight = FontWeight.Medium
         )
     }
 }
